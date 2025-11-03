@@ -63,7 +63,7 @@ export default function Footer() {
       </div>
 
       <div className="footer__bottom">
-        <p>© {new Date().getFullYear()} HARLEM. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Jumanji33. Rights reserved</p>
         <nav className="footer__links" aria-label="Footer">
           <a href="#">House Rules</a>
           <a href="#">Privacy</a>
