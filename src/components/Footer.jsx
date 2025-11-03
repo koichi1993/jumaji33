@@ -19,7 +19,7 @@ export default function Footer() {
           <div className="footer__logo">
             <img src={logoUrl} alt="HARLEM logo" />
           </div>
-          <p className="footer__tag">Shibuya’s hip-hop heartbeat since ’97.</p>
+          <p className="footer__tag">Value king of Shibuya. Drinks that don’t stop.</p>
 
           <div className="footer__social">
             <a
