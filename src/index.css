@@ -1,0 +1,764 @@
+/* =========================================================
+   GLOBAL TOKENS & BASE
+   (keep here if you don't already have a globals.css)
+   ========================================================= */
+:root {
+  --bg: #0a0a0a;
+  --fg: #ffffff;
+  --fg-muted: rgba(255,255,255,.72);
+  --line: rgba(255,255,255,0.12);
+  --accent: #ff2d55;      /* neon pink */
+  --accent-2: #7c3aed;    /* deep purple */
+
+  /* fonts */
+  --font-heading: "League Spartan", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+}
+
+/* Headings that should pop */
+.hero__content h1,
+.why__title { font-family: var(--font-heading); }
+
+/* Supporting text stays clean */
+.why__lead,
+.why__bullets li,
+.why__card p,
+.why__card h3 { font-family: var(--font-body); }
+
+/* Generic button */
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  text-decoration: none;
+  transition: transform .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+/* =========================================================
+   HERO (Triple full-bleed videos; mobile = 1 video)
+   ========================================================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 80vh;               /* full-bleed feel */
+  overflow: hidden;
+  isolation: isolate;         /* keep overlays contained */
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Top-left logo overlay */
+.hero__logo {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  z-index: 5;                 /* above overlay and videos */
+  display: inline-block;
+}
+.hero__logo img {
+  display: block;
+  width: auto;
+  height: 44px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+  transition: transform .15s ease;
+}
+.hero__logo:hover img { transform: translateY(-1px); }
+@media (max-width: 767px) {
+  .hero__logo img { height: 36px; }
+}
+
+/* ---------- Triple video grid filling the hero ---------- */
+.hero__triple {
+  position: absolute;
+  inset: 0;                   /* fill entire hero */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;                 /* videos lowest */
+}
+
+/* Each panel fills its third */
+.hero__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;           /* clip video to its third */
+}
+
+/* Same visuals; semantic modifier */
+.hero__frame--panel {}
+
+/* Videos fill their panel */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* cover each third */
+  object-position: center;
+  display: block;
+}
+
+/* Per-panel overlay (subtle gradient), under section content */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 75%),
+    radial-gradient(800px 400px at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+}
+
+/* ---------- Section-level content overlay ---------- */
+.hero__content {
+  position: relative;
+  z-index: 2;                 /* above overlays/videos */
+  height: 100%;
+  padding: 0 20px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #fff;
+}
+.hero__content h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 22px rgba(0,0,0,0.35);
+}
+.hero__content p {
+  margin: 12px 0 0 0;
+  opacity: 0.95;
+}
+
+/* ---------- Mobile behavior: collapse to a single video ---------- */
+@media (max-width: 768px) {
+  .hero__triple {
+    grid-template-columns: 1fr;        /* collapse grid */
+  }
+  /* Hide panels 2 and 3 to show ONLY ONE video on phones */
+  .hero__triple .hero__frame:nth-child(n+2) {
+    display: none;
+  }
+}
+
+/* Respect reduced motion: posters instead of playing video */
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; }
+  .hero__frame {
+    background: url("../assets/hero-poster.png") center / cover no-repeat;
+  }
+}
+
+
+
+
+/* WHY SECTION */
+/* ===========================
+   JUMANJI33 — WHY SECTION
+   Clean slate, neon + glass
+   =========================== */
+
+/* WHY SECTION */
+.why{
+  position: relative;
+  padding: clamp(48px, 8vw, 96px) 24px;
+  background:
+    radial-gradient(900px 400px at 20% 0%, rgba(255,255,255,.06), transparent 60%),
+    var(--bg);
+}
+.why__inner{
+  max-width: 1100px; margin: 0 auto;
+  display: grid; gap: 32px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px){
+  .why__inner{ grid-template-columns: 1.1fr .9fr; align-items: center; }
+}
+
+.why__kicker{
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.why__title{
+  margin: 0 0 12px 0;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.1;
+}
+.why__title span{
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.why__lead{
+  color: var(--fg-muted);
+  margin: 10px 0 18px 0;
+  max-width: 60ch;
+}
+
+.why__bullets{
+  list-style: none; padding: 0; margin: 0 0 18px 0;
+  display: grid; gap: 8px;
+}
+.why__bullets li{
+  padding-left: 14px; position: relative; color: var(--fg);
+}
+.why__bullets li::before{
+  content: ""; width: 6px; height: 6px; border-radius: 999px;
+  background: var(--accent);
+  position: absolute; left: 0; top: .7em;
+}
+
+.why__badges{ display: flex; gap: 10px; flex-wrap: wrap; }
+.badge{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--line);
+  padding: 8px 12px; border-radius: 999px; font-size: 12px;
+}
+.badge--outline{
+  background: transparent; border: 1px solid rgba(255,255,255,.35);
+}
+
+.why__right{ position: relative; }
+.why__card{
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  overflow: hidden;
+}
+.why__card h3{ margin: 0 0 6px 0; font-size: 18px; }
+.why__card p{ margin: 0 0 12px 0; color: var(--fg-muted); }
+.why__ticks{ display: grid; gap: 8px; color: var(--fg); font-size: 14px; }
+
+.why__glow{
+  position: absolute; inset: -40% -20% auto -20%;
+  height: 70%; filter: blur(60px); opacity: .45; z-index: -1;
+  background: radial-gradient(600px 260px at 20% 30%, var(--accent), transparent 60%),
+              radial-gradient(400px 220px at 90% 10%, var(--accent-2), transparent 60%);
+  animation: floatGlow 8s ease-in-out infinite alternate;
+}
+@keyframes floatGlow{
+  from{ transform: translateY(-8px); }
+  to{   transform: translateY(8px); }
+}
+
+/* Optional ticker line */
+.why__ticker{
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.why__track{
+  display: inline-block;      /* fits content width */
+  white-space: nowrap;
+  padding: 10px 0;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.6);
+  font-size: 12px;
+  will-change: transform;
+  animation: ticker 20s linear infinite;
+}
+
+@keyframes ticker{
+  0%   { transform: translateX(100%); }   /* start fully off the right edge */
+  100% { transform: translateX(-100%); }  /* end fully off the left edge */
+}
+
+.why__inner {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.why__inner.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accessibility: respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce){
+  .why__inner { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+
+/* ===================== GALLERY (tile-based, small, no crop) ===================== */
+
+/* Tunables for size & speed */
+:root{
+  /* NEW: control image height only */
+  --gallery-thumb-h: 200px;   /* tweak this to resize everything */
+
+  /* keep these as-is if you still want them elsewhere */
+  --gallery-gap: 8px;
+  --gallery-speed-top: 45s;
+  --gallery-speed-bottom: 40s;
+}
+
+/* Section wrapper */
+.gallery{
+  position: relative;
+  padding: clamp(40px, 7vw, 80px) 24px;
+  background:
+    radial-gradient(1000px 420px at 80% 0%, rgba(255,255,255,.05), transparent 60%),
+    var(--bg);
+}
+
+.gallery__head{
+  max-width: 1100px;
+  margin: 0 auto 20px;
+}
+
+/* Frame with edge fades */
+.gallery__wrap{
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+}
+
+/* Each horizontal lane; height comes from tiles, not the row */
+.gallery__row{
+  position: relative;
+  padding: 8px 0;
+}
+
+/* Moving strip (duplicated content for seamless loop) */
+.gallery__track{
+  display: flex;
+  gap: var(--gallery-gap);
+  width: max-content;
+  will-change: transform;
+  transform: translateX(0);
+}
+
+/* Directions + speed */
+.gallery__track--left{
+  animation: galleryLeft var(--gallery-speed-top) linear infinite;
+}
+.gallery__track--right{
+  animation: galleryRight var(--gallery-speed-bottom) linear infinite;
+}
+
+/* Only animate when the row has .play (set via IntersectionObserver) */
+.gallery__row:not(.play) .gallery__track{
+  animation-play-state: paused;
+}
+
+/* Fixed-size tile keeps images truly small without cropping */
+.gallery__tile{
+  display: inline-block;      /* shrink-wrap to image width */
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,0.02);
+  overflow: hidden;
+}
+
+/* Image defines the size: fixed HEIGHT, natural WIDTH */
+.gallery__img{
+  height: var(--gallery-thumb-h);  /* main size control */
+  width: auto;                     /* keeps aspect ratio */
+  display: block;
+  object-fit: contain;             /* show full image, no crop */
+  filter: saturate(110%) contrast(108%);
+}
+
+/* Edge fade masks */
+.gallery__mask{
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 10%;
+  pointer-events: none;
+}
+.gallery__mask--left{
+  left: 0;
+  background: linear-gradient(to right, rgba(10,10,10,1) 0%, rgba(10,10,10,0) 100%);
+}
+.gallery__mask--right{
+  right: 0;
+  background: linear-gradient(to left, rgba(10,10,10,1) 0%, rgba(10,10,10,0) 100%);
+}
+
+/* Seamless loop keyframes (move exactly half because content is duplicated) */
+@keyframes galleryLeft{
+  from{ transform: translateX(0); }
+  to{   transform: translateX(-50%); }
+}
+@keyframes galleryRight{
+  from{ transform: translateX(-50%); }
+  to{   transform: translateX(0); }
+}
+
+/* Optional: speed up slightly on hover (desktop only). Remove if undesired */
+@media (hover: hover) and (pointer: fine){
+  .gallery__wrap:hover .gallery__track--left{
+    animation-duration: calc(var(--gallery-speed-top) - 8s);
+  }
+  .gallery__wrap:hover .gallery__track--right{
+    animation-duration: calc(var(--gallery-speed-bottom) - 6s);
+  }
+}
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce){
+  .gallery__track{ animation: none !important; }
+}
+
+
+
+/* ===== EVENT POSTERS (image-only cards) ===== */
+.posters{
+  padding: clamp(40px, 7vw, 80px) 24px;
+  background:
+    radial-gradient(900px 380px at 90% 0%, rgba(255,255,255,.05), transparent 60%),
+    var(--bg);
+}
+.posters__head{
+  max-width: 1100px; margin: 0 auto 20px;
+}
+
+/* Responsive grid */
+.posters__grid{
+  max-width: 1100px; margin: 0 auto;
+  display: grid; gap: 16px;
+  grid-template-columns: 1fr;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.posters__grid.in{ opacity: 1; transform: translateY(0); }
+
+@media (min-width: 640px){
+  .posters__grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px){
+  .posters__grid{ grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Image-only “cards” */
+.posters__item{
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+}
+
+/* Standardize to a poster ratio, crop edges cleanly */
+.posters__img{
+  width: 100%;
+  aspect-ratio: 4 / 5;       /* typical flyer/poster ratio; tweak if needed */
+  object-fit: cover;         /* fills the frame; no letterboxing */
+  display: block;
+  filter: saturate(110%) contrast(108%);
+  transition: transform .2s ease;
+}
+
+@media (pointer:fine){
+  .posters__item:hover .posters__img{ transform: translateY(-2px); }
+}
+
+.posters__more{
+  display: grid; place-items: center;
+  margin-top: 16px;
+}
+.btn.btn--ghost{
+  border-color: rgba(255,255,255,.6);
+  color: rgba(255,255,255,.95);
+  background: transparent;
+}
+.btn.btn--ghost:hover{ transform: translateY(-2px); }
+
+/* Motion a11y */
+@media (prefers-reduced-motion: reduce){
+  .posters__grid{ opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+
+/* ===== TESTIMONIALS ===== */
+:root{
+  --testi-w: 980px;          /* max width of the frame */
+  --testi-h: 620px;          /* max img height inside the frame */
+   /* image caps (keep the screenshot from growing) */
+  --testi-img-maxw: 780px;  /* cap width of the screenshot */
+  --testi-img-maxh: 480px;  /* cap height of the screenshot */
+
+  /* frame padding around the image */
+  --testi-frame-pad: 20px;  /* increase for more “matting” */
+  --testi-radius: 16px;
+  --testi-speed: .55s;
+}
+
+.testi{
+  padding: clamp(40px, 7vw, 80px) 24px;
+  background:
+    radial-gradient(900px 380px at 15% 0%, rgba(255,255,255,.05), transparent 60%),
+    var(--bg);
+}
+
+/* center the heading block */
+.testi__head{
+  max-width: 1100px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+/* center the frame and make it the positioning context for arrows/dots */
+.testi__frame{
+  width: 100%;
+  max-width: var(--testi-w);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--testi-radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  backdrop-filter: blur(2px);
+}
+
+/* track slides horizontally; transform set inline from React */
+.testi__track{
+  display: flex;
+  transition: transform var(--testi-speed) ease;
+  will-change: transform;
+}
+
+/* each slide = exactly one frame width */
+.testi__slide{
+  flex: 0 0 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: var(--testi-frame-pad);  /* was 12px */
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.testi__img{
+  width: auto;                        /* stop stretching to 100% */
+  height: auto;
+  max-width: var(--testi-img-maxw);   /* cap width */
+  max-height: var(--testi-img-maxh);  /* cap height */
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;                     /* keep centered */
+  background: #0f0f0f;
+  border-radius: 12px;
+}
+
+
+/* controls (arrows) */
+.testi__nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.45);
+  background: rgba(0,0,0,.35);
+  color: #fff; font-size: 22px; line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: transform .12s ease, background .2s ease, opacity .2s ease;
+  z-index: 2;                    /* ← keep above the image */
+}
+.testi__nav--prev{ left: 10px; }
+.testi__nav--next{ right: 10px; }
+@media (hover:hover){
+  .testi__nav:hover{
+    transform: translateY(-50%) scale(1.05);
+    background: rgba(0,0,0,.5);
+  }
+}
+
+/* dots */
+.testi__dots{
+  position: absolute; left: 0; right: 0; bottom: 10px;
+  display: flex; gap: 8px; justify-content: center;
+  z-index: 2;
+}
+.testi__dot{
+  width: 8px; height: 8px;
+  border-radius: 999px; border: none;
+  background: rgba(255,255,255,.35);
+  cursor: pointer;
+}
+.testi__dot.is-active{ background: #fff; }
+
+/* mobile sizing */
+@media (max-width: 640px){
+  :root{
+    --testi-w: 92vw;
+    --testi-h: 64vh;
+    --testi-img-maxw: 88vw;   /* allow wider on mobile */
+    --testi-img-maxh: 60vh;
+  }
+}
+
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .testi__track{ transition: none !important; }
+}
+
+/* mobile: make frame exactly viewport wide (full-bleed) */
+@media (max-width: 640px){
+  .testi__frame{
+    max-width: none;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);   /* center full-bleed */
+  }
+  .testi__slide{
+    padding: 0;                       /* no inner padding on phone */
+  }
+}
+
+
+
+/* ===== FOOTER ===== */
+.footer{
+  padding: clamp(40px, 6vw, 72px) 24px 24px;
+  background:
+    radial-gradient(900px 380px at 85% 0%, rgba(255,255,255,.05), transparent 60%),
+    var(--bg);
+  border-top: 1px solid var(--line);
+  color: var(--fg);
+}
+
+.footer__grid{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px){
+  .footer__grid{ grid-template-columns: 1.1fr .9fr 1.4fr; }
+}
+
+/* Brand */
+.footer__logo img{
+  height: 44px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+  
+}
+.footer__tag{
+  margin-top: 10px;
+  opacity: .85;
+}
+.footer__social{
+  display: flex; gap: 10px; margin-top: 14px;
+}
+.footer__icon{
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  transition: transform .15s ease, background .2s ease;
+}
+.footer__icon img{
+  width: 18px; height: 18px; display: block;
+}
+.footer__icon:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.07);
+}
+
+/* Info */
+.footer__heading{
+  font-size: 1.05rem;
+  margin: 6px 0 10px;
+  opacity: .95;
+}
+.footer__addr{
+  font-style: normal;
+  line-height: 1.6;
+  opacity: .9;
+}
+.footer__list{
+  margin-top: 10px;
+  display: grid; gap: 6px;
+}
+.footer__list > div{
+  display: flex; justify-content: space-between; gap: 12px;
+  border-bottom: 1px dashed var(--line);
+  padding: 6px 0;
+}
+.footer__list span{ opacity: .8; }
+.footer__list a{ color: var(--fg); text-decoration: underline; }
+
+/* Map (responsive) */
+.footer__mapwrap{ min-width: 0; }
+.footer__map{
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,.03);
+  aspect-ratio: 16 / 10;    /* responsive height */
+}
+.footer__map iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Bottom row */
+.footer__bottom{
+  max-width: 1200px;
+  margin: 20px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  display: flex; gap: 16px; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  opacity: .9;
+}
+.footer__links{
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.footer__links a{
+  color: var(--fg); opacity: .85;
+  border-bottom: 1px solid transparent;
+}
+.footer__links a:hover{
+  opacity: 1; border-color: var(--fg);
+}
+
+/* a11y helper */
+.sr-only{
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+
